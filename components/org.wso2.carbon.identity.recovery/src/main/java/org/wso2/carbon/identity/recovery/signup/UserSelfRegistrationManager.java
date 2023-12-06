@@ -101,6 +101,7 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -115,6 +116,7 @@ import static org.wso2.carbon.identity.application.authentication.framework.util
 import static org.wso2.carbon.identity.application.authentication.framework.util.FrameworkConstants.AUDIT_SUCCESS;
 import static org.wso2.carbon.identity.input.validation.mgt.utils.Constants.Configs.USERNAME;
 import static org.wso2.carbon.identity.input.validation.mgt.utils.Constants.ErrorMessages.ERROR_GETTING_EXISTING_CONFIGURATIONS;
+import static org.wso2.carbon.identity.recovery.IdentityRecoveryConstants.ConnectorConfig.SKIP_SIGN_UP_ENABLE_CHECK_KEY;
 import static org.wso2.carbon.identity.recovery.IdentityRecoveryConstants.ErrorMessages.ERROR_CODE_MULTIPLE_REGISTRATION_OPTIONS;
 import static org.wso2.carbon.identity.recovery.IdentityRecoveryConstants.SIGNUP_PROPERTY_REGISTRATION_OPTION;
 
@@ -182,7 +184,12 @@ public class UserSelfRegistrationManager {
         boolean enable = Boolean.parseBoolean(Utils.getSignUpConfigs(
                 IdentityRecoveryConstants.ConnectorConfig.ENABLE_SELF_SIGNUP, user.getTenantDomain()));
 
-        if (!enable) {
+        boolean skipSelfSignUpEnabledCheck = Arrays.stream(properties)
+                .filter(prop -> SKIP_SIGN_UP_ENABLE_CHECK_KEY.equalsIgnoreCase(prop.getKey())).findFirst()
+                .map(prop -> Boolean.parseBoolean(prop.getValue()))
+                .orElse(false);
+
+        if (!skipSelfSignUpEnabledCheck && !enable) {
             throw Utils.handleClientException(IdentityRecoveryConstants.ErrorMessages.ERROR_CODE_DISABLE_SELF_SIGN_UP, user
                     .getUserName());
         }

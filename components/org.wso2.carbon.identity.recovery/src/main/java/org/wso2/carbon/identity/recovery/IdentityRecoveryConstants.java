@@ -573,6 +573,7 @@ public class IdentityRecoveryConstants {
                 ".Password.ReCaptcha.MaxFailedAttempts";
         public static final String RECOVERY_CALLBACK_REGEX = "Recovery.CallbackRegex";
         public static final String ENABLE_SELF_SIGNUP = "SelfRegistration.Enable";
+        public static final String SKIP_SIGN_UP_ENABLE_CHECK_KEY = "skipSignUpEnableCheck";
         public static final String ACCOUNT_LOCK_ON_CREATION = "SelfRegistration.LockOnCreation";
         public static final String SELF_REGISTRATION_SEND_OTP_IN_EMAIL = "SelfRegistration.OTP.SendOTPInEmail";
         public static final String SELF_REGISTRATION_USE_UPPERCASE_CHARACTERS_IN_OTP = "SelfRegistration.OTP." +
